@@ -1,3 +1,7 @@
+package day22
+
+import readInput
+
 typealias FlatRepresentation = List<String>
 
 data class Position(val row: Int, val column: Int) {
@@ -27,7 +31,7 @@ enum class Face {
     ONE, TWO, THREE, FOUR, FIVE, SIX
 }
 
-data class State22(val pos: Position, val dir: Direction) {
+data class State(val pos: Position, val dir: Direction) {
     fun password(): Int {
         return 1000 * (pos.row + 1) + 4 * (pos.column + 1) + dir.code
     }
@@ -35,7 +39,7 @@ data class State22(val pos: Position, val dir: Direction) {
 
 interface Field {
     val flatMap: FlatRepresentation
-    fun moveForward(state: State22, steps: Int):State22
+    fun moveForward(state: State, steps: Int): State
 }
 
 fun main() {
@@ -60,12 +64,12 @@ fun main() {
         )
     }
 
-    fun flatPositionInFront(state: State22, field: FlatRepresentation): State22 {
+    fun flatPositionInFront(state: State, field: FlatRepresentation): State {
         var current = state.pos
         do {
             current = simpleWrap(current + state.dir.vec, field)
         } while (field[current] == ' ')
-        return State22(current, state.dir)
+        return State(current, state.dir)
     }
 
     fun turnDir(dir: Direction, command: String): Direction {
@@ -75,11 +79,11 @@ fun main() {
             else -> throw Exception("Unknown turn command")
         }
     }
-    fun turn(state: State22, command: String): State22 {
-        return State22(state.pos, turnDir(state.dir, command))
+    fun turn(state: State, command: String): State {
+        return State(state.pos, turnDir(state.dir, command))
     }
 
-    fun positionInFrontOnCube(cubeState: Pair<Face,State22>, cubeSize: Int): Pair<Face, State22> {
+    fun positionInFrontOnCube(cubeState: Pair<Face, State>, cubeSize: Int): Pair<Face, State> {
         val (face, state) = cubeState
         val dummyPosition = state.pos + state.dir.vec
         if (dummyPosition.row < cubeSize
@@ -87,136 +91,136 @@ fun main() {
             && dummyPosition.row >= 0
             && dummyPosition.column >= 0
         ) {
-            return face to State22(dummyPosition, state.dir)
+            return face to State(dummyPosition, state.dir)
         }
         when (face) {
             Face.ONE -> when (state.dir) {
-                Direction.RIGHT -> return Face.THREE to State22(
+                Direction.RIGHT -> return Face.THREE to State(
                     Position(0, cubeSize - state.pos.row - 1),
                     Direction.DOWN
                 )
 
-                Direction.DOWN -> return Face.TWO to State22(
+                Direction.DOWN -> return Face.TWO to State(
                     Position(0, state.pos.column),
                     Direction.DOWN
                 )
 
-                Direction.LEFT -> return Face.FOUR to State22(
+                Direction.LEFT -> return Face.FOUR to State(
                     Position(0, state.pos.row),
                     Direction.DOWN
                 )
 
-                Direction.UP -> return Face.FIVE to State22(
+                Direction.UP -> return Face.FIVE to State(
                     Position(0, cubeSize - state.pos.column - 1),
                     Direction.DOWN
                 )
             }
 
             Face.TWO -> when (state.dir) {
-                Direction.RIGHT -> return Face.THREE to State22(
+                Direction.RIGHT -> return Face.THREE to State(
                     Position(state.pos.row, 0),
                     Direction.RIGHT
                 )
 
-                Direction.DOWN -> return Face.SIX to State22(
+                Direction.DOWN -> return Face.SIX to State(
                     Position(0, state.pos.column),
                     Direction.DOWN
                 )
 
-                Direction.LEFT -> return Face.FOUR to State22(
+                Direction.LEFT -> return Face.FOUR to State(
                     Position(state.pos.row, cubeSize - 1),
                     Direction.LEFT
                 )
 
-                Direction.UP -> return Face.ONE to State22(
+                Direction.UP -> return Face.ONE to State(
                     Position(cubeSize - 1, state.pos.column),
                     Direction.UP
                 )
             }
 
             Face.THREE -> when (state.dir) {
-                Direction.RIGHT -> return Face.FIVE to State22(
+                Direction.RIGHT -> return Face.FIVE to State(
                     Position(state.pos.row, 0),
                     Direction.RIGHT
                 )
 
-                Direction.DOWN -> return Face.SIX to State22(
+                Direction.DOWN -> return Face.SIX to State(
                     Position(state.pos.column, cubeSize - 1),
                     Direction.LEFT
                 )
 
-                Direction.LEFT -> return Face.TWO to State22(
+                Direction.LEFT -> return Face.TWO to State(
                     Position(state.pos.row, cubeSize - 1),
                     Direction.LEFT
                 )
 
-                Direction.UP -> return Face.ONE to State22(
+                Direction.UP -> return Face.ONE to State(
                     Position(cubeSize - 1 - state.pos.column, cubeSize - 1),
                     Direction.LEFT
                 )
             }
 
             Face.FOUR -> when (state.dir) {
-                Direction.RIGHT -> return Face.TWO to State22(
+                Direction.RIGHT -> return Face.TWO to State(
                     Position(state.pos.row, 0),
                     Direction.RIGHT
                 )
 
-                Direction.DOWN -> return Face.SIX to State22(
+                Direction.DOWN -> return Face.SIX to State(
                     Position(cubeSize - 1 - state.pos.column, 0),
                     Direction.RIGHT
                 )
 
-                Direction.LEFT -> return Face.FIVE to State22(
+                Direction.LEFT -> return Face.FIVE to State(
                     Position(state.pos.row, cubeSize - 1),
                     Direction.LEFT
                 )
 
-                Direction.UP -> return Face.ONE to State22(
+                Direction.UP -> return Face.ONE to State(
                     Position(state.pos.column, 0),
                     Direction.RIGHT
                 )
             }
 
             Face.FIVE -> when (state.dir) {
-                Direction.RIGHT -> return Face.FOUR to State22(
+                Direction.RIGHT -> return Face.FOUR to State(
                     Position(state.pos.row, 0),
                     Direction.RIGHT
                 )
 
-                Direction.DOWN -> return Face.SIX to State22(
+                Direction.DOWN -> return Face.SIX to State(
                     Position(cubeSize - 1, cubeSize - 1 - state.pos.column),
                     Direction.UP
                 )
 
-                Direction.LEFT -> return Face.THREE to State22(
+                Direction.LEFT -> return Face.THREE to State(
                     Position(state.pos.row, cubeSize - 1),
                     Direction.LEFT
                 )
 
-                Direction.UP -> return Face.ONE to State22(
+                Direction.UP -> return Face.ONE to State(
                     Position(0, cubeSize - 1 - state.pos.column),
                     Direction.DOWN
                 )
             }
 
             Face.SIX -> when (state.dir) {
-                Direction.RIGHT -> return Face.THREE to State22(
+                Direction.RIGHT -> return Face.THREE to State(
                     Position(cubeSize - 1, state.pos.row),
                     Direction.UP
                 )
 
-                Direction.DOWN -> return Face.FIVE to State22(
+                Direction.DOWN -> return Face.FIVE to State(
                     Position(cubeSize - 1, cubeSize - 1 - state.pos.column),
                     Direction.UP
                 )
 
-                Direction.LEFT -> return Face.FOUR to State22(
+                Direction.LEFT -> return Face.FOUR to State(
                     Position(cubeSize - 1, cubeSize - 1 - state.pos.row),
                     Direction.UP
                 )
 
-                Direction.UP -> return Face.TWO to State22(
+                Direction.UP -> return Face.TWO to State(
                     Position(cubeSize - 1, state.pos.column),
                     Direction.UP
                 )
@@ -230,7 +234,7 @@ fun main() {
             for (row in 0 until cubeSize) {
                 for (column in 0 until cubeSize) {
                     for (direction in Direction.values()) {
-                        val startState = State22(Position(row, column), direction)
+                        val startState = State(Position(row, column), direction)
                         val (nextFace, nextState) = positionInFrontOnCube(face to startState, cubeSize)
                         val turned = turn(turn(nextState, "L"), "L")
                         val (returnedFace, returnedState) = positionInFrontOnCube(nextFace to turned, cubeSize)
@@ -249,8 +253,8 @@ fun main() {
         }
     }
 
-    fun simpleMoveForward(steps: Int, state: State22,
-                        field: FlatRepresentation, positionInFront: (State22) -> State22): State22 {
+    fun simpleMoveForward(steps: Int, state: State,
+                          field: FlatRepresentation, positionInFront: (State) -> State): State {
         var current = state
         repeat(steps) {
             if (field[positionInFront(current).pos] == '.') {
@@ -270,7 +274,7 @@ fun main() {
     }
 
     class DummyField(override val flatMap: FlatRepresentation) : Field {
-        override fun moveForward(state: State22, steps: Int): State22 {
+        override fun moveForward(state: State, steps: Int): State {
             return simpleMoveForward(steps, state, flatMap) {x -> flatPositionInFront(x, flatMap)}
         }
     }
@@ -286,7 +290,7 @@ fun main() {
                 && (pos.row < alignment.pos.row + cubeSize)
     }
 
-    fun cubeState(flatRelativePos: Position, flatDir: Direction, faceDir: Direction, cubeSize: Int): State22 {
+    fun cubeState(flatRelativePos: Position, flatDir: Direction, faceDir: Direction, cubeSize: Int): State {
         var cubeDir = flatDir
         var tmpFaceDir = faceDir
         while (tmpFaceDir != Direction.UP) {
@@ -300,23 +304,23 @@ fun main() {
             Direction.LEFT -> Position(flatRelativePos.column, cubeSize - flatRelativePos.row - 1)
             Direction.UP -> flatRelativePos
         }
-        return State22(position, cubeDir)
+        return State(position, cubeDir)
     }
 
     class CubeField(val cubeSize: Int,
                     override val flatMap: FlatRepresentation,
                     val alignments: Map<Face, Alignment>) : Field {
-        override fun moveForward(state: State22, steps: Int): State22 {
+        override fun moveForward(state: State, steps: Int): State {
             return simpleMoveForward(steps, state, flatMap) {x ->
                 convertCubeToFlat(positionInFrontOnCube(convertFlatToCube(x), cubeSize))
             }
         }
-        fun convertFlatToCube(state: State22): Pair<Face, State22> {
+        fun convertFlatToCube(state: State): Pair<Face, State> {
             val face = Face.values().find { x -> coordinateIsInsideFace(state.pos, alignments[x]!!, cubeSize) }!!
             val relativePos = state.pos - alignments[face]!!.pos
             return face to cubeState(relativePos, state.dir, alignments[face]!!.dir, cubeSize)
         }
-        fun convertCubeToFlat(cubeState: Pair<Face,State22>): State22 {
+        fun convertCubeToFlat(cubeState: Pair<Face, State>): State {
             val (face, state) = cubeState
             var faceDir = Direction.UP
             var flatDir = state.dir
@@ -330,7 +334,7 @@ fun main() {
                 Direction.LEFT -> Position(cubeSize - state.pos.column -1, state.pos.row)
                 Direction.UP -> state.pos
             }
-            return State22(alignments[face]!!.pos + relativePos, flatDir)
+            return State(alignments[face]!!.pos + relativePos, flatDir)
         }
     }
 
@@ -338,13 +342,13 @@ fun main() {
         return DummyField(normalizedField(input))
     }
 
-    fun solve(input: List<String>, createField: (List<String>)->Field): Int {
+    fun solve(input: List<String>, createField: (List<String>)-> Field): Int {
         val field = createField(input.dropLast(2))
         val commandString = input.last()
         val commandList = commandString
             .replace(Regex("""\p{Upper}""")) { x: MatchResult -> " ${x.value} " }
             .split(" ").filter { s -> s != "" }
-        var state = State22(getStartPosition(field.flatMap), Direction.RIGHT)
+        var state = State(getStartPosition(field.flatMap), Direction.RIGHT)
         for (command in commandList) {
             state = if (command == "R" || command == "L") {
                 turn(state, command)
@@ -385,7 +389,7 @@ fun main() {
                 val pos = Position(row, column)
                 if (field.flatMap[pos] != ' ') {
                     for (dir in Direction.values()) {
-                        val state = State22(pos, dir)
+                        val state = State(pos, dir)
                         val cubeState = field.convertFlatToCube(state)
                         val reversedState = field.convertCubeToFlat(cubeState)
                         if (state != reversedState) {

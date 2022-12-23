@@ -1,5 +1,8 @@
+package day19
+
 import kotlin.math.max
 import kotlin.math.min
+import readInput
 
 enum class ResourceType {
     ORE, CLAY, OBSIDIAN, GEODE;
@@ -214,15 +217,12 @@ data class Blueprint(val id: Int, val robotCosts: RobotCosts) {
 }
 
 fun State.isBetterThan(other: State, blueprint: Blueprint): Boolean {
-    if (this == other) {
-        return false
-    }
-    if (this.production.covers(blueprint.robotCosts.geode)
-        && this.stock.covers(blueprint.robotCosts.geode)
+    if (production.covers(blueprint.robotCosts.geode)
+        && stock.covers(blueprint.robotCosts.geode)
         && geodes >= other.geodes
     ) {
         //println("Ultimate!")
-        return true
+        return hashCode() > other.hashCode()
     }
     for (resourseType in ResourceType.buildingResourses())
         if (!resourseIsGoodEnough(blueprint, resourseType)
@@ -231,7 +231,7 @@ fun State.isBetterThan(other: State, blueprint: Blueprint): Boolean {
         ) {
             return false
         }
-    return geodes >= other.geodes
+    return geodes > other.geodes || (geodes == other.geodes && hashCode() > other.hashCode())
 }
 
 fun State.resourseIsGoodEnough(blueprint: Blueprint, resource: ResourceType): Boolean {
