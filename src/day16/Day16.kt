@@ -1,29 +1,31 @@
+package day16
 import java.lang.Integer.max
+import readInput
+
+class Valve(val rate: Int, val tunnels: List<String>)
+
+fun parseValve(input: String): Pair<String, Valve> {
+    val regex =
+        Regex("""Valve (\p{Upper}{2}) has flow rate=(\d+); tunnels? leads? to valves? (((\p{Upper}{2})(, )?)+)""")
+    val match = regex.matchEntire(input)
+    val name = match!!.groups[1]!!.value
+    val rate = match.groups[2]!!.value.toInt()
+    val tunnels = match.groups[3]!!.value.split(",").map { s -> s.trim() }
+    return Pair(name, Valve(rate, tunnels))
+}
+
+fun parseValves(input: List<String>): Map<String, Valve> {
+    return input.associate(::parseValve)
+}
+
+@Suppress("unused")
+fun printValves(valves: Map<String, Valve>) {
+    for (valve in valves) {
+        println("${valve.key} : ${valve.value.rate} ${valve.value.tunnels}")
+    }
+}
 
 fun main() {
-    class Valve(val rate: Int, val tunnels: List<String>)
-
-    fun parseValve(input: String): Pair<String, Valve> {
-        val regex =
-            Regex("""Valve (\p{Upper}{2}) has flow rate=(\d+); tunnels? leads? to valves? (((\p{Upper}{2})(, )?)+)""")
-        val match = regex.matchEntire(input)
-        val name = match!!.groups[1]!!.value
-        val rate = match.groups[2]!!.value.toInt()
-        val tunnels = match.groups[3]!!.value.split(",").map { s -> s.trim() }
-        return Pair(name, Valve(rate, tunnels))
-    }
-
-    fun parseValves(input: List<String>): Map<String, Valve> {
-        return input.associate(::parseValve)
-    }
-
-    @Suppress("unused")
-    fun printValves(valves: Map<String, Valve>) {
-        for (valve in valves) {
-            println("${valve.key} : ${valve.value.rate} ${valve.value.tunnels}")
-        }
-    }
-
     fun <K> updateData(dataset: MutableMap<K, Int>, key: K, value: Int) {
         dataset[key] = max(dataset[key] ?: -1, value)
     }
