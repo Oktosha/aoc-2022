@@ -1,9 +1,6 @@
 package day23
+import containsAny
 import readInput
-
-fun <E> Collection<E>.containsAny(elements: Collection<E>): Boolean {
-    return elements.any { x -> this.contains(x) }
-}
 
 enum class Direction(val vec: Position) {
     N(Position(-1, 0)),
