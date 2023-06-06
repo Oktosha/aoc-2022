@@ -1,25 +1,26 @@
 # aoc-2022
 
-Welcome to the Advent of Code[^aoc] Kotlin project created by [oktosha][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
+This repo contains my solutions to the [Advent of Code 2022][aoc] in Kotlin.
 
-In this repository, oktosha is about to provide solutions for the puzzles using [Kotlin][kotlin] language.
+This is was the first time I participated in Advent of Code, and the the first time I used Kotlin (except for following some tutorials in 2020).
 
-If you're stuck with Kotlin-specific questions or anything related to this template, check out the following resources:
+I solved all the challenges! Solutions aren't pretty, and the day 16 pt 2 needs about an hour to get the answer... but hey, it works! For the context, less than 5% of participants solve all the challenges (full stats [here][stats]).
 
-- [Kotlin docs][docs]
-- [Kotlin Slack][slack]
-- Template [issue tracker][issues]
+The project is ≈3000 lines of code accoring to [codetabs.com][loc]. Some of this code is inherited from the [template by JetBrains][template] and some of this code is boilerplate... but it is still a decent amount of code in Kotlin.
 
+When I participate in the Advent of Code next time, I'll probably name the repo `aoc-yyyy`, where `yyyy` indicates year. So if you are reading this from the future and are interested in my other Advent of Code participations, search for `aoc` in my repos!
 
-[^aoc]:
-    [Advent of Code][aoc] – An annual event of Christmas-oriented programming challenges started December 2015.
-    Every year since then, beginning on the first day of December, a programming puzzle is published every day for twenty-five days.
-    You can solve the puzzle and provide an answer using the language of your choice.
+Advent of Code challenges are very similar to competitive programming challenges. If you are interested in competitive programming, you might want to check out my [cp-code][cp-code] repo and befriend me ([Dashk0][cf]) on Codeforces.
 
-[aoc]: https://adventofcode.com
-[docs]: https://kotlinlang.org/docs/home.html
-[github]: https://github.com/oktosha
-[issues]: https://github.com/kotlin-hands-on/advent-of-code-kotlin-template/issues
-[kotlin]: https://kotlinlang.org
-[slack]: https://surveys.jetbrains.com/s3/kotlin-slack-sign-up
+💜 *Created by [Oktosha][profile] (up-to-date email & LinkedIn on github profile)* 💜
+</br>
+🖤 *You can also use [my form on Google Forms][form] to contact me* 🖤
+
+[aoc]: https://adventofcode.com/2022
+[cf]: https://codeforces.com/profile/Dashk0
+[cp-code]: https://github.com/Oktosha/cp-code
+[form]: https://forms.gle/GCa9ymrYwtTzgiCS8
+[loc]: https://codetabs.com/count-loc/count-loc-online.html
+[profile]: https://github.com/Oktosha
+[stats]: https://adventofcode.com/2022/stats
 [template]: https://github.com/kotlin-hands-on/advent-of-code-kotlin-template
