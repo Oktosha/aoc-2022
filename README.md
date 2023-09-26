@@ -10,15 +10,11 @@ The project is ≈3000 lines of code accoring to [codetabs.com][loc]. Some of th
 
 When I participate in the Advent of Code next time, I'll probably name the repo `aoc-yyyy`, where `yyyy` indicates year. So if you are reading this from the future and are interested in my other Advent of Code participations, search for `aoc` in my repos!
 
-Advent of Code challenges are very similar to competitive programming challenges. If you are interested in competitive programming, you might want to check out my [cp-code][cp-code] repo and befriend me ([Dashk0][cf]) on Codeforces.
-
 💜 *Created by [Oktosha][profile] (up-to-date email & LinkedIn on github profile)* 💜
 </br>
 🖤 *You can also use [my form on Google Forms][form] to contact me* 🖤
 
 [aoc]: https://adventofcode.com/2022
-[cf]: https://codeforces.com/profile/Dashk0
-[cp-code]: https://github.com/Oktosha/cp-code
 [form]: https://forms.gle/GCa9ymrYwtTzgiCS8
 [loc]: https://codetabs.com/count-loc/count-loc-online.html
 [profile]: https://github.com/Oktosha
